@@ -61,7 +61,7 @@ namespace UniVRM10
             };
             if (vrm0.TryGet("meshAnnotations", out JsonNode meshAnnotations))
             {
-                Func<int, int> meshIndexToRenderNodeIndex = meshIndex =>
+                Func<int, int?> meshIndexToRenderNodeIndex = meshIndex =>
                 {
                     for (int i = 0; i < gltf.nodes.Count; ++i)
                     {
@@ -71,16 +71,20 @@ namespace UniVRM10
                             return i;
                         }
                     }
-                    throw new NotImplementedException("mesh is not used");
+                    return default;
                 };
                 foreach (var x in meshAnnotations.ArrayItems())
                 {
-                    var a = new MeshAnnotation
+                    var renderNodeIndex = meshIndexToRenderNodeIndex(x["mesh"].GetInt32());
+                    if (renderNodeIndex.HasValue)
                     {
-                        Node = meshIndexToRenderNodeIndex(x["mesh"].GetInt32()),
-                        Type = MigrateFirstPersonType(x["firstPersonFlag"]),
-                    };
-                    firstPerson.MeshAnnotations.Add(a);
+                        var a = new MeshAnnotation
+                        {
+                            Node = renderNodeIndex,
+                            Type = MigrateFirstPersonType(x["firstPersonFlag"]),
+                        };
+                        firstPerson.MeshAnnotations.Add(a);
+                    }
                 }
             };
 
