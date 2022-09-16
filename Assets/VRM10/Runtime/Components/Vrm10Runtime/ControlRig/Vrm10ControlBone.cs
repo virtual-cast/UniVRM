@@ -58,6 +58,7 @@ namespace UniVRM10
 
             BoneType = boneType;
             ControlTarget = controlTarget;
+            // NOTE: bone name must be unique in the vrm instance.
             ControlBone = new GameObject($"{nameof(Vrm10ControlBone)}:{boneType.ToString()}").transform;
             ControlBone.position = controlTarget.position;
             InitialControlBoneLocalPosition = ControlBone.localPosition;
