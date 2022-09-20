@@ -154,7 +154,9 @@ namespace UniVRM10
             m_done = true;
 
             var runtime = go.GetComponent<UniGLTF.RuntimeGltfInstance>();
-            var firstPersonBone = go.GetComponent<Animator>().GetBoneTransform(HumanBodyBones.Head);
+            var vrmInstance = go.GetComponent<Vrm10Instance>();
+            // NOTE: This must be raw head bone instead of control rig bone.
+            var firstPersonBone = vrmInstance.Humanoid.Head;
 
             var used = new HashSet<string>();
             foreach (var x in Renderers)
