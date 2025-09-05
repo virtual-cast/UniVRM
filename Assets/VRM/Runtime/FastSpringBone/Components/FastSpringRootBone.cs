@@ -69,6 +69,7 @@ namespace VRM.FastSpringBones.Components
             if (_transform.parent)
             {
                 parent = new NativeTransform(_transformRegistry, TransformSynchronizationType.PullOnly, _transform.parent);
+                _transformWrappers.Add(parent);
             }
             SetupRecursive(_transform, parent);
 
